@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<cars>
+  <make>Skoda</make>
+  <make>Volkswagen</make>
+  <make>Toyota</make>
+  <make>Opel</make>
+  <make>Ford</make>
+  <make>Renault</make>
+  <make>Fiat</make>
+  <make>Peugeot</make>
+  <make>Kia</make>
+  <make>Hyundai</make>
+  <make>Rolls Royce</make>
+  <make>Tesla</make>
+  <make>Tata</make>
+  <make>Lamborghini</make>
+  <make>Aston Martin</make>
+  <make>Dodge</make>
+  <make>McLaren</make>
+  <make>Cadillac</make>
+  <make>Chrysler</make>
+  <make>Gaz</make>
+</cars>
