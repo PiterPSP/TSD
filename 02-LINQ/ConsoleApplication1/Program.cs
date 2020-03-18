@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using TSD.Linq.Cars;
 
@@ -11,6 +10,17 @@ namespace ConsoleApplication1
     class Program
     {
         static void Main(string[] args)
+        {
+            Console.WriteLine("Task2:\n");
+            Task2();
+
+            Console.WriteLine("\n\nTask3:\n");
+            Task3();
+
+            Console.ReadLine();
+        }
+
+        static void Task2()
         {
             CarSalesBook carSalesBook = new CarSalesBook();
 
@@ -43,8 +53,6 @@ namespace ConsoleApplication1
             Console.WriteLine("\nLoaded cars from XML:");
             List<Car> loadedCars = ReadFromXML(path);
             PrintMakes(loadedCars);
-
-            Console.ReadLine();
         }
 
         static void PrintMakes(IEnumerable<Car> results)
@@ -71,6 +79,26 @@ namespace ConsoleApplication1
         static List<Car> ReadFromXML(string path)
         {
             return XDocument.Load(path).Element("cars")?.Elements("make").Select(car => new Car(car.Value)).ToList();
+        }
+
+        static void Task3()
+        {
+            Console.WriteLine("Memory used by processes: " + Process.GetProcesses().CalculateMemory() + " bytes");
+
+            bool LeapYear(int year) => (year % 4 == 0);
+            Console.WriteLine("\nIs year 2013 a leap year? Answer: " + LeapYear(2513));
+            Console.WriteLine("Is year 2020 a leap year? Answer: " + LeapYear(2020));
+
+            RandomList<int> myGenericList = new RandomList<int>();
+            Console.WriteLine("\nList is empty: " + myGenericList.IsEmpty());
+            myGenericList.Add(3);
+            myGenericList.Add(7);
+            myGenericList.Add(1);
+            Console.WriteLine("List is empty: " + myGenericList.IsEmpty());
+            Console.WriteLine("Randomized gets:");
+            Console.WriteLine(myGenericList.Get(0));
+            Console.WriteLine(myGenericList.Get(1));
+            Console.WriteLine(myGenericList.Get(2));
         }
     }
 }
