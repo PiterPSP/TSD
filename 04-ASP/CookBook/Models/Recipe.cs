@@ -17,6 +17,8 @@ namespace CookBook.Models
         public string Process { get; set; }
         public string Tips { get; set; }
 
+        public Recipe() { }
+
         public Recipe(int id, string name, int time, string difficulty, int numberOfLikes, string ingredients, string process, string tips)
         {
             Id = id;

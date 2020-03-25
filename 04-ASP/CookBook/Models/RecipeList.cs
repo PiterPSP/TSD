@@ -29,5 +29,11 @@ namespace CookBook.Models
                 recipe.Id = idd++;
             }
         }
+
+        public static void Add(Recipe recipe)
+        {
+            recipe.Id = RecipesList.Count;
+            RecipesList.Add(recipe);
+        }
     }
 }
