@@ -7,11 +7,18 @@
 <h2>Recipe List</h2>
 
 <p>
-    <a asp-action="Initialize">Generate example recipe</a>
+    <a asp-action="Initialize">Generate example recipes</a>
 </p>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="CookBook" asp-action="Index">
+    <p>
+        Name: <input type="text" name="SearchPattern">
+        <input type="submit" value="Search" />
+        <button asp-action="Index">Clear</button>
+    </p>
+</form>
 <table class="table">
     <thead>
     <tr>
@@ -22,7 +29,7 @@
             Name
         </th>
         <th>
-            Time
+            Time (min)
         </th>
         <th>
             Likes

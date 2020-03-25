@@ -1,4 +1,5 @@
-﻿using System.Text.Encodings.Web;
+﻿using System;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using CookBook.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +10,14 @@ namespace CookBook.Controllers
 {
     public class CookBookController : Controller
     {
-        // GET: /CookBook/
-        public IActionResult Index()
+
+        public IActionResult Index(string searchPattern)
         {
-            return View(RecipeList.GetRecipeList());
+            if(searchPattern == null || searchPattern.Trim() == "")
+                return View(RecipeList.GetRecipeList());
+            return View(RecipeList.GetFilteredRecipeList(searchPattern));
         }
 
-        // GET: Movies/Edit/5
         public IActionResult Edit(int? id)
         {
             if (id == null || id >= RecipeList.GetRecipeList().Count)
@@ -26,9 +28,6 @@ namespace CookBook.Controllers
             return View(RecipeList.GetRecipeList()[id.Value]);
         }
 
-        // POST: Movies/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,Name,Time,Difficulty,NumberOfLikes,Ingredients,Process,Tips")] Recipe recipe)
