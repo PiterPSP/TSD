@@ -1,0 +1,3 @@
+3. edit in container: docker exec -it my_container bash
+4. Only mounted volume stays the same
+5. No, it is reset

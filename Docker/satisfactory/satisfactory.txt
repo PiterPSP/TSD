@@ -1,0 +1,15 @@
+docker run hello-world
+docker container create --name hello-container hello-world
+docker start hello-container
+docker create --name red redis redis-server
+docker start red
+docker exec -it red bash
+pwd
+whoami
+ps
+exit
+docker stop red
+docker container list -a
+docker container rm 77183f5522e4
+docker image list -a
+docker image rm bf756fb1ae65

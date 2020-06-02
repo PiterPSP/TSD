@@ -1,0 +1,8 @@
+version: '1'
+services:
+  web:
+    volumes: "/home/piter/docker:/mounted"
+    build: .
+    ports: "5000:5000"
+  redis:
+    image: "redis:alpine"

@@ -1,0 +1,5 @@
+(robione na windowsie i jakieś dzikie błędy więc bez screenów)
+
+docker build --tag "ubuntu:18.04" .
+docker run ubuntu:18.04
+docker run ubuntu:18.04 Kowalski
