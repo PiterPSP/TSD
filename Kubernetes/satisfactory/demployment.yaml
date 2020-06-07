@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helminiak
+  labels:
+    app: helminiak
+spec:  
+  replicas: 3
+  selector:
+    matchLabels:
+      app: helminiak
+  template:
+    metadata:
+      labels:
+        app: helminiak
+    spec:
+
+      volumes:
+      - name: data-store
+        emptyDir: {}
+
+      containers:
+
+      - name: server
+        image: nginx
+        volumeMounts:
+        - name: data-store
+          mountPath: /usr/share/nginx/html
+
+      - name: provider
+        image: alpine
+        volumeMounts:
+        - name: data-store
+          mountPath: /pod-data
+        command: ["/bin/sh"]
+        args:
+          - "-c"
+          - >
+            while true; do
+              date >> /pod-data/index.html;
+            done

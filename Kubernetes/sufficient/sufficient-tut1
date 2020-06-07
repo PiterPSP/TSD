@@ -1,0 +1,58 @@
+# solution for 1st tutorial: https://www.katacoda.com/courses/kubernetes/launch-single-node-cluster
+
+$ minikube version
+minikube version: v1.8.1
+commit: cbda04cf6bbe65e987ae52bb393c10099ab62014
+
+$ minikube start --wait=false
+* minikube v1.8.1 on Ubuntu 18.04
+* Using the none driver based on user configuration
+* Running on localhost (CPUs=2, Memory=2460MB, Disk=145651MB) ...
+* OS release is Ubuntu 18.04.4 LTS
+* Preparing Kubernetes v1.17.3 on Docker 19.03.6 ...
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+* Launching Kubernetes ...
+* Enabling addons: default-storageclass, storage-provisioner
+* Configuring local host environment ...
+* Done! kubectl is now configured to use "minikube"
+
+$ kubectl cluster-info
+Kubernetes master is running at https://172.17.0.74:8443
+KubeDNS is running at https://172.17.0.74:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+$ kubectl get nodes
+NAME       STATUS   ROLES    AGE     VERSION
+minikube   Ready    master   4m20s   v1.17.3
+
+$ kubectl create deployment first-deployment --image=katacoda/docker-http-server
+deployment.apps/first-deployment created
+
+$ kubectl get pods
+NAME                               READY   STATUS              RESTARTS   AGE
+first-deployment-666c48b44-zc5hh   0/1     ContainerCreating   0          7s
+
+$ kubectl get pods
+NAME                               READY   STATUS    RESTARTS   AGE
+first-deployment-666c48b44-zc5hh   1/1     Running   0          24s
+
+$ kubectl expose deployment first-deployment --port=80 --type=NodePort
+service/first-deployment exposed
+
+$ export PORT=$(kubectl get svc first-deployment -o go-template='{{range.spec.ports}}{{if .nodePort}}{{.nodePort}}{{"\n"}}{{end}}{{end}}')
+$ echo "Accessing host01:$PORT"
+Accessing host01:30077
+$ curl host01:$PORT
+<h1>This request was processed by host: first-deployment-666c48b44-zc5hh</h1>
+
+$ minikube addons enable dashboard
+* The 'dashboard' addon is enabled
+
+$ kubectl apply -f /opt/kubernetes-dashboard.yaml
+namespace/kubernetes-dashboard configured
+service/kubernetes-dashboard-katacoda created
+
+$ kubectl get pods -n kubernetes-dashboard -w
+NAME                                         READY   STATUS    RESTARTS   AGE
+dashboard-metrics-scraper-7b64584c5c-ccjh8   1/1     Running   0          34s
+kubernetes-dashboard-79d9cd965-svstk         1/1     Running   0          34s

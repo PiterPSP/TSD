@@ -1,0 +1,58 @@
+$ minikube start --wait=false
+* minikube v1.8.1 on Ubuntu 18.04
+* Using the none driver based on user configuration
+* Running on localhost (CPUs=2, Memory=2460MB, Disk=145651MB) ...
+* OS release is Ubuntu 18.04.4 LTS
+* Preparing Kubernetes v1.17.3 on Docker 19.03.6 ...
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+* Launching Kubernetes ...
+* Enabling addons: default-storageclass, storage-provisioner
+* Configuring local host environment ...
+* Done! kubectl is now configured to use "minikube"
+
+$ git clone https://github.com/jantechner/dos-attacker
+
+$ docker pull jantechner/go-server:latest
+latest: Pulling from jantechner/go-server
+aad63a933944: Pull complete
+5668d34d8029: Pull complete
+Digest: sha256:c3664942f0e5605b772aa81b018034db72c99f343ec9f6d45997b46c2f0fcb84
+Status: Downloaded newer image for jantechner/go-server:latest
+docker.io/jantechner/go-server:latest
+
+$ export REQUESTS_LIMIT=100
+
+$ kubectl create -f deployment.yaml
+deployment.apps/helminiak created
+
+$ kubectl create -f service.yaml
+service/helminiak-svc created
+
+$ curl 172.17.0.38:31111
+Hello World!$ ^C
+
+$ cd dos-attacker/
+$ chmod +x attacker
+
+$ ./attacker 172.17.0.38 31111 25000 30
+Attack initiated - 25000 request per minute to 172.17.0.38:31111
+Attack is successful
+
+
+    5. What is the minimal frequency of requests for attack to succeed in 30 seconds?
+    Answer: ?
+
+    6. What happens to servers that has been shut down because of the requests overload? Show the list of running pods and
+check their status. 
+    Answer: They get automatically restarted by default
+
+$ kubectl get pods
+NAME                         READY   STATUS    RESTARTS   AGE
+helminiak-6bd4748b6d-7bh9s   1/1     Running   0          6m12s
+helminiak-6bd4748b6d-crnsn   1/1     Running   0          6m12s
+helminiak-6bd4748b6d-td246   1/1     Running   0          6m12s
+helminiak-6bd4748b6d-z8qbx   1/1     Running   0          6m12s
+
+
+
+

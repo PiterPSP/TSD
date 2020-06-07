@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helminiak
+  labels:
+    app: helminiak
+spec:  
+  replicas: 4
+  selector:
+    matchLabels:
+      app: helminiak
+  template:
+    metadata:
+      labels:
+        app: helminiak
+    spec:
+      containers:
+      - name: server
+        image: docker.io/jantechner/go-server:latest
+        ports:
+        - containerPort: 8080
